@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ventus/main.dart';
 
+import 'category.dart';
+
 class SecondScreen extends StatefulWidget {
   @override
   _SecondScreenState createState() => _SecondScreenState();
@@ -35,7 +37,11 @@ class _SecondScreenState extends State<SecondScreen> {
           child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+            padding: const EdgeInsets.only(top: 40),
+            child: Image.asset('assets/logo07.png'),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
             child: Container(
               height: 50,
               width: 330,
@@ -122,7 +128,7 @@ class _SecondScreenState extends State<SecondScreen> {
                   ),
                 ]),
                 TableRow(children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(height: 0),
                 ]),
                 TableRow(children: [
@@ -142,7 +148,7 @@ class _SecondScreenState extends State<SecondScreen> {
                   ),
                 ]),
                 TableRow(children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   SizedBox(height: 0),
                 ]),
                 TableRow(children: [
@@ -170,7 +176,7 @@ class _SecondScreenState extends State<SecondScreen> {
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute<Null>(builder: (BuildContext context) {
-                    return new SecondScreen();
+                    return new Category();
                   }));
             },
           )
