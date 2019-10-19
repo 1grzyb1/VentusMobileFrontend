@@ -9,7 +9,7 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-  String dropdownValue = 'Mężczyzna';
+  String dropdownValue = 'Male'.toUpperCase();
   bool switchOn = false;
   bool switchOn1 = false;
   bool switchOn2 = false;
@@ -50,7 +50,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 5.0),
                     ),
-                    labelText: 'Imię'),
+                    labelText: 'Name'.toUpperCase()),
               ),
             ),
           ),
@@ -64,7 +64,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 5.0),
                     ),
-                    labelText: 'Miejsce zamieszkania'),
+                    labelText: 'City'.toUpperCase()),
               ),
             ),
           ),
@@ -95,7 +95,7 @@ class _SecondScreenState extends State<SecondScreen> {
                       dropdownValue = newValue;
                     });
                   },
-                  items: <String>['Mężczyzna', 'Kobieta']
+                  items: <String>['Male'.toUpperCase(), 'Female'.toUpperCase()]
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -114,7 +114,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 TableRow(children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: Text("Wyświetlaj moje zdjęcie z Facebooka",
+                    child: Text("Show my facebook picture".toUpperCase(),
                         style: TextStyle(color: Color(0xff44647D),
                             fontWeight: FontWeight.bold)),
                   ),
@@ -134,7 +134,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 TableRow(children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: Text("Pokazuj tylko osoby w pobliżu",
+                    child: Text("Show only people near me".toUpperCase(),
                         style: TextStyle(color: Color(0xff44647D),
                         fontWeight: FontWeight.bold)),
                   ),
@@ -154,7 +154,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 TableRow(children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: Text("Mam ukończone 13 lat i akceptuje warunki użytkowania",
+                    child: Text("I'm 13 years old and accept terms of use".toUpperCase(),
                         style: TextStyle(color: Color(0xff44647D),
                             fontWeight: FontWeight.bold)),
                   ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
-import 'delayed_animation.dart';
 import 'Second.dart';
 
 void main() => runApp(MyApp());
@@ -18,6 +17,7 @@ class _MyAppState extends State<MyApp> {
       title: "SetState management",
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'concertone'
       ),
       home: FirstScreen(),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ventus/choosing.dart';
 import 'package:ventus/main.dart';
 
 class Category extends StatefulWidget {
@@ -29,18 +30,27 @@ class _CategoryState extends State<Category> {
                     spacing: 10.0,
                     runSpacing: 20.0,
                     children: <Widget>[
-                      SizedBox(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            border: new Border.all(
-                              color: green,
-                            ),
-                          ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute<Null>(builder: (BuildContext context) {
+                                return new Choose();
+                              }));
+                        },
+                        child:SizedBox(
                           child: Container(
-                              child: new Text("Muzyka", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: green)),
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              border: new Border.all(
+                                color: green,
+                              ),
+                            ),
+                            child: Container(
+                              child: new Text("MUSIC", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: green)),
                               margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
+
+                            ),
                           ),
                         ),
                       ),
@@ -52,7 +62,7 @@ class _CategoryState extends State<Category> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Container(
-                            child: new Text("Filmy", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
+                            child: new Text("MOVIES", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                           ),
                         ),
@@ -65,7 +75,7 @@ class _CategoryState extends State<Category> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Container(
-                            child: new Text("Informatyka", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
+                            child: new Text("IT", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                           ),
                         ),
@@ -78,7 +88,7 @@ class _CategoryState extends State<Category> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Container(
-                            child: new Text("Książki", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
+                            child: new Text("BOOKS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                           ),
                         ),
@@ -93,7 +103,7 @@ class _CategoryState extends State<Category> {
                             ),
                           ),
                           child: Container(
-                            child: new Text("Matematyka", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: blue)),
+                            child: new Text("MATH", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: blue)),
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                           ),
                         ),
@@ -106,7 +116,7 @@ class _CategoryState extends State<Category> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Container(
-                            child: new Text("Sport", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
+                            child: new Text("SPORT", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white)),
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                           ),
                         ),
@@ -120,15 +130,3 @@ class _CategoryState extends State<Category> {
     );
   }
 }
-
-Widget get _animatedButtonUI => Container(
-  height: 50,
-  width: 340,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(100.0),
-    color: Color(0xff44647D),
-  ),
-  child: Center(
-      child: Icon(Icons.arrow_forward, color: Colors.white,)
-  ),
-);
