@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ventus/main.dart';
-
-import 'category.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,6 +9,10 @@ class Home extends StatefulWidget {
 class _SecondScreenState extends State<Home> {
   Color blue = Color(0xff517193);
   Color lightBlue = Color(0xff91a5bb);
+  Color green = Color(0xff46B29D);
+  Color red = Color(0xffFFAD6F);
+  Color orange = Color(0xffFEB74E);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +22,345 @@ class _SecondScreenState extends State<Home> {
           title: Image.asset('assets/logo07.png', fit: BoxFit.cover, scale: 1.7,),
         centerTitle: true,
       ),
-      body: Center(),
+      body: Center(
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                width: 10,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Colors.grey,
+                      offset: new Offset(2.0, 2.0),
+                      blurRadius: 5.0,
+                    )
+                  ],
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            child: Icon(Icons.person, color: blue,),
+                            decoration: BoxDecoration(
+                              color: lightBlue,
+                              shape: BoxShape.circle
+                            ),
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("Piast Bulgocki", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 17),),
+                              SizedBox(height: 3,),
+                              Row(
+                                children: <Widget>[
+                                  Icon(Icons.pin_drop, color: blue, size: 10,),
+                                  Text("Góry Sowie", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 10),),
+                                ],
+                              )
+                            ],
+                          )
+                      ],
+                    ),
+                    Table(
+                      columnWidths: {1: FractionColumnWidth(.6)},
+                      children: [
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Linkin Park", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 1,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("glebogryzarki", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.8,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Majkarft Bomba", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.6,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("pomidory", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.2,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                width: 10,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Colors.grey,
+                      offset: new Offset(2.0, 2.0),
+                      blurRadius: 5.0,
+                    )
+                  ],
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            child: Icon(Icons.person, color: blue,),
+                            decoration: BoxDecoration(
+                                color: lightBlue,
+                                shape: BoxShape.circle
+                            ),
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Piast Bulgocki", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 17),),
+                            SizedBox(height: 3,),
+                            Row(
+                              children: <Widget>[
+                                Icon(Icons.pin_drop, color: blue, size: 10,),
+                                Text("Góry Sowie", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 10),),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    Table(
+                      columnWidths: {1: FractionColumnWidth(.6)},
+                      children: [
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Linkin Park", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 1,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("glebogryzarki", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.8,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Majkarft Bomba", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.6,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("pomidory", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.2,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                width: 10,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Colors.grey,
+                      offset: new Offset(2.0, 2.0),
+                      blurRadius: 5.0,
+                    )
+                  ],
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            child: Icon(Icons.person, color: blue,),
+                            decoration: BoxDecoration(
+                                color: lightBlue,
+                                shape: BoxShape.circle
+                            ),
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Piast Bulgocki", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 17),),
+                            SizedBox(height: 3,),
+                            Row(
+                              children: <Widget>[
+                                Icon(Icons.pin_drop, color: blue, size: 10,),
+                                Text("Góry Sowie", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 10),),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    Table(
+                      columnWidths: {1: FractionColumnWidth(.6)},
+                      children: [
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Linkin Park", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 1,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("glebogryzarki", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.8,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("Majkarft Bomba", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.6,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                        TableRow( children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            child: Text("pomidory", style: TextStyle(color: blue, fontWeight: FontWeight.bold),),
+                          ),
+                          LinearPercentIndicator(
+                            width: 160.0,
+                            lineHeight: 14.0,
+                            percent: 0.2,
+                            backgroundColor: Color(0xffffdabf),
+                            progressColor: orange,
+                          ),
+                        ]),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+            ),
+          ],
+        ),
+      ),
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: blue, //This will change the drawer background to blue.
-          //other styles
+          canvasColor: blue,
         ),
         child: Drawer(
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(

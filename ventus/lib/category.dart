@@ -130,10 +130,6 @@ class _CategoryState extends State<Category> {
 
                   ),
                 ),
-                 Align(
-                   alignment: Alignment.bottomCenter,
-                   child: Text("asd"),
-                 )
               ],
             ),
           )),
