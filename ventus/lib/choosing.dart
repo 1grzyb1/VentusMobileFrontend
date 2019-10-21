@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/services.dart';
-import 'Second.dart';
+import 'package:ventus/MySliderThumbShape.dart';
+import 'package:ventus/RoundSliderTrackShape.dart';
+
+import 'Home.dart';
 
 class Choose extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class Choose extends StatefulWidget {
 }
 
 class ChooseScreen extends State<Choose> {
-  double _value = 0.0;
+  double _value = 0.5;
   @override
   Widget build(BuildContext context) {
     Color orange = Color(0xffFFAD6F);
@@ -21,17 +22,18 @@ class ChooseScreen extends State<Choose> {
                 padding: EdgeInsets.only(top: 80),
                 child: Image.asset('assets/logo07.png'),
               ),
+              SizedBox(height: 40,),
               Padding(
-                padding: const EdgeInsets.only(top: 65),
+                padding: const EdgeInsets.only(top: 0),
                 child: SizedBox(
                   child: Container(
-                    height: 270,
-                    width: 270,
+                    height: 270 + 20*_value,
+                    width: 270 + 20*_value,
                     decoration: new BoxDecoration(
                       color: orange,
                       shape: BoxShape.circle,
                       border: new Border.all(
-                        width: 20,
+                        width: 30 - 20*_value,
                         color: Color(0xffffdabf),
                       ),
                     ),
@@ -43,13 +45,38 @@ class ChooseScreen extends State<Choose> {
                   ),
                 ),
               ),
-              Slider(
-                  value: _value,
-                  onChanged: (value) {
-                    setState(() {
-                      _value = value;
-                    });
-                  }),
+      Padding(
+        padding: const EdgeInsets.only(top: 40),
+        child: SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            trackHeight: 11,
+            trackShape: RoundSliderTrackShape(radius: 8),
+            thumbShape: MySliderThumbShape(),
+            inactiveTrackColor: Color(0xffffdabf),
+            activeTrackColor: orange,
+            thumbColor: Colors.white,
+          ),
+          child: Slider(
+              value: _value,
+              onChanged: (value) {
+                setState(() {
+                  _value = value;
+                });
+              }),
+        ),
+      ),
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: FlatButton(
+                  child: _animatedButtonUI,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute<Null>(builder: (BuildContext context) {
+                          return new Home();
+                        }));
+                  },
+                ),
+              )
             ],
           ),
       )
@@ -58,21 +85,14 @@ class ChooseScreen extends State<Choose> {
 }
 
 Widget get _animatedButtonUI => Container(
-  height: 40,
-  width: 270,
+  height: 50,
+  width: 50,
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(100.0),
     color: Color(0xff44647D),
   ),
   child: Center(
-    child: Text(
-      'CONTINUE WITH FACEBOOK',
-      style: TextStyle(
-        fontSize: 10.0,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
+    child: Icon(Icons.arrow_forward, color: Colors.white,),
   ),
 );
 

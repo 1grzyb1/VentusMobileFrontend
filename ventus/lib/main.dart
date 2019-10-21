@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter/services.dart';
-import 'Second.dart';
+import 'Login.dart';
+import 'Register.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +16,6 @@ class _MyAppState extends State<MyApp> {
       title: "SetState management",
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'concertone'
       ),
       home: FirstScreen(),
     );
@@ -37,19 +35,51 @@ class FirstScreen extends StatelessWidget {
           ),
           SizedBox(height: 200),
           FlatButton(
-            child: _animatedButtonUI,
+            child: _registerUI,
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute<Null>(builder: (BuildContext context) {
-                return new SecondScreen();
-              }));
+                    return new Register();
+                  }));
             },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: FlatButton(
+              child: _animatedButtonUI,
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute<Null>(builder: (BuildContext context) {
+                  return new Login();
+                }));
+              },
+            ),
           )
         ],
       )),
     );
   }
 }
+
+Widget get _registerUI => Container(
+  height: 40,
+  width: 270,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(100.0),
+    border: new Border.all(
+      color: Color(0xff44647D),
+    ),
+  ),
+  child: Center(
+    child: Text(
+      'Zarejestruj',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Color(0xff44647D),
+      ),
+    ),
+  ),
+);
 
 Widget get _animatedButtonUI => Container(
       height: 40,
@@ -60,9 +90,8 @@ Widget get _animatedButtonUI => Container(
       ),
       child: Center(
         child: Text(
-          'CONTINUE WITH FACEBOOK',
+          'Zaloguj',
           style: TextStyle(
-            fontSize: 10.0,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),

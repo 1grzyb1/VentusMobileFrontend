@@ -3,12 +3,12 @@ import 'package:ventus/main.dart';
 
 import 'category.dart';
 
-class SecondScreen extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
   _SecondScreenState createState() => _SecondScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
+class _SecondScreenState extends State<Register> {
   String dropdownValue = 'Male'.toUpperCase();
   bool switchOn = false;
   bool switchOn1 = false;
@@ -194,6 +194,12 @@ Widget get _animatedButtonUI => Container(
     color: Color(0xff44647D),
   ),
   child: Center(
-    child: Icon(Icons.arrow_forward, color: Colors.white,)
+    child: Text(
+      'Zarejestruj',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
   ),
 );
