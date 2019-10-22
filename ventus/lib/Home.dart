@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+import 'category.dart';
+
 class Home extends StatefulWidget {
   @override
   _SecondScreenState createState() => _SecondScreenState();
@@ -416,6 +418,10 @@ class _SecondScreenState extends State<Home> {
                   ),
               ),
               onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute<Null>(builder: (BuildContext context) {
+                      return new Home();
+                    }));
                 Navigator.pop(context);
               },
             ),
@@ -432,6 +438,7 @@ class _SecondScreenState extends State<Home> {
                 ),
               ),
               onTap: () {
+
                 Navigator.pop(context);
               },
             ),
@@ -448,6 +455,10 @@ class _SecondScreenState extends State<Home> {
                 ),
               ),
               onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute<Null>(builder: (BuildContext context) {
+                      return new Category();
+                    }));
                 Navigator.pop(context);
               },
             ),
