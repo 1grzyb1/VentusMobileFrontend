@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/main.dart';
-
+import 'dart:convert';
 import 'category.dart';
 
 class Login extends StatefulWidget {
@@ -13,6 +16,8 @@ class _SecondScreenState extends State<Login> {
   bool switchOn = false;
   bool switchOn1 = false;
   bool switchOn2 = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +36,12 @@ class _SecondScreenState extends State<Login> {
                   height: 50,
                   width: 330,
                   child: TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey, width: 5.0),
                         ),
-                        labelText: 'Login'),
+                        labelText: 'email'),
                   ),
                 ),
               ),
@@ -45,6 +51,7 @@ class _SecondScreenState extends State<Login> {
                   height: 50,
                   width: 330,
                   child: TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey, width: 5.0),
@@ -56,11 +63,30 @@ class _SecondScreenState extends State<Login> {
               SizedBox(height: 200),
               FlatButton(
                 child: _animatedButtonUI,
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute<Null>(builder: (BuildContext context) {
-                        return new Category();
-                      }));
+                onPressed: () async {
+                  String url = 'http://ventusapi.herokuapp.com/api/login_check';
+                  Map<String, String> headers = {"Content-type": "application/json"};
+//                  String json = '{"username": "'+ emailController.text +'", "password": "' + passwordController.text + '"}';
+                  String json = '{"username": "' + emailController.text + '","password": "'+ passwordController.text +'"}';
+                  Response response = await post(url, headers: headers, body: json);
+                  Map resp = jsonDecode(response.body.toString());
+                  if(response.statusCode == 200){
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setString("token", resp['token'].toString());
+                    prefs.setString("refresfToken", resp['refresh_token'].toString());
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Category()
+                    ));
+                  }
+                  else{
+                    showDialog(context: context,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            content: Text("Bad email or password"),
+                          );
+                        }
+                    );
+                  }
                 },
               )
             ],

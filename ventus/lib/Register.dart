@@ -5,6 +5,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/Home.dart';
+import 'package:ventus/Login.dart';
 import 'package:ventus/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -302,11 +303,9 @@ class _SecondScreenState extends State<Register> {
                     );
 
                     if(response.statusCode == 200){
-                      Map resp = json.decode(response.body.toString());
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString("token", resp['token'].toString());
-                      prefs.setString("refresfToken", resp['refresh_token'].toString());
-
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => Login()
+                      ));
                     }
                     else{
                       Map resp = json.decode(response.body.toString());
