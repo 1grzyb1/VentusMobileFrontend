@@ -55,7 +55,7 @@ class _SecondScreenState extends State<Register> {
   }
   @override
   Widget build(BuildContext context) {
-    checkIfLogged();
+//    checkIfLogged();
     void _onSwitchChanged(bool variable) {
       setState(() {
         switchOn = variable;
@@ -119,6 +119,7 @@ class _SecondScreenState extends State<Register> {
                   height: 50,
                   width: 330,
                   child: TextField(
+                    obscureText: true,
                     controller: passwordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -134,6 +135,7 @@ class _SecondScreenState extends State<Register> {
                   height: 50,
                   width: 330,
                   child: TextField(
+                    obscureText: true,
                     controller: repasswordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -300,20 +302,18 @@ class _SecondScreenState extends State<Register> {
                     );
 
                     if(response.statusCode == 200){
+                      Map resp = json.decode(response.body.toString());
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString("logged", emailController.text);
-                      Navigator.of(context).push(
-                          MaterialPageRoute<Null>(builder: (
-                              BuildContext context) {
-                            return new Category();
-                          }));
+                      prefs.setString("token", resp['token'].toString());
+                      prefs.setString("refresfToken", resp['refresh_token'].toString());
+
                     }
                     else{
                       Map resp = json.decode(response.body.toString());
                       showDialog(context: context,
                           builder: (BuildContext context){
                             return AlertDialog(
-                              content: Text(response.body.toString()),
+                              content: Text(resp['error'].toString()),
                             );
                           }
                       );

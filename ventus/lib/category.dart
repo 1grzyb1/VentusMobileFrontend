@@ -136,22 +136,3 @@ class _CategoryState extends State<Category> {
     );
   }
 }
-
-Widget get _animatedButtonUI => Container(
-  height: 40,
-  width: 270,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(100.0),
-    color: Color(0xff44647D),
-  ),
-  child: Center(
-    child: Text(
-      'Zaloguj',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-  ),
-);
-
