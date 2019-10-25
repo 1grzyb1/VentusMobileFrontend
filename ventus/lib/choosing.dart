@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/MySliderThumbShape.dart';
+import 'package:ventus/PODO/SubcategoryPODO.dart';
 import 'package:ventus/RoundSliderTrackShape.dart';
 
 import 'Home.dart';
@@ -10,9 +15,31 @@ class Choose extends StatefulWidget {
 }
 
 class ChooseScreen extends State<Choose> {
+  SharedPreferences prefs;
+  String text = "";
+  int id = 0;
+  List<SubcategoryPODO> categories;
+  bool ones = true;
+  inintShared() async{
+    prefs = await SharedPreferences.getInstance();
+    text = prefs.getInt("categoryID").toString();
+    String url = "http://ventusapi.herokuapp.com/api/category/" +text + "/subcategories";
+    Response response = await get(url);
+    String json = response.body.toString();
+    final jsonResponse = jsonDecode(json);
+    var list = jsonResponse as List;
+    categories =  list.map((i) => SubcategoryPODO.fromJson(i)).toList();
+    setState(() {
+      text = categories[0].name;
+    });
+  }
   double _value = 0.5;
   @override
   Widget build(BuildContext context) {
+    if(ones){
+      inintShared();
+      ones = false;
+    }
     Color orange = Color(0xffFFAD6F);
     return Scaffold(
       body: Center(
@@ -38,7 +65,7 @@ class ChooseScreen extends State<Choose> {
                       ),
                     ),
                     child: Container(
-                      child: Center(child: new Text("Linkin park", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white))),
+                      child: Center(child: new Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white))),
                       margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
 
                     ),
@@ -70,10 +97,18 @@ class ChooseScreen extends State<Choose> {
                 child: FlatButton(
                   child: _animatedButtonUI,
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute<Null>(builder: (BuildContext context) {
-                          return new Home();
-                        }));
+                    setState(()  {
+                      _addSub();
+                      id++;
+                      if(id < categories.length){
+                        text = categories[id].name;
+                      }
+                      else{
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => Home()
+                        ));
+                      }
+                    });
                   },
                 ),
               )
@@ -81,6 +116,13 @@ class ChooseScreen extends State<Choose> {
           ),
       )
     );
+  }
+  _addSub() async {
+    String url = 'http://ventusapi.herokuapp.com/api/user/subcategory/new';
+    Map<String, String> headers = {"Authorization": "Bearer " + prefs.getString("token")};
+    String json = '{"subcategory": "' + categories[id].id.toString() + '","percentage": "'+ (_value*100).toString() +'"}';
+    Response response = await post(url, headers: headers, body: json);
+    print(response.statusCode.toString());
   }
 }
 

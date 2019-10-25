@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Home.dart';
 import 'Login.dart';
 import 'Register.dart';
 
@@ -9,9 +11,20 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 class _MyAppState extends State<MyApp> {
+  checkIfLogged() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("token") != null){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Home()
+      ));
+    };
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
+//    checkIfLogged();
     return MaterialApp(
       title: "SetState management",
       theme: ThemeData(
@@ -23,8 +36,10 @@ class _MyAppState extends State<MyApp> {
 }
 
 class FirstScreen extends StatelessWidget {
+  BuildContext get context => null;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Center(
           child: Column(

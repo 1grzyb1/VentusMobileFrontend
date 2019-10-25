@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/main.dart';
 import 'dart:convert';
+import 'Home.dart';
 import 'category.dart';
 
 class Login extends StatefulWidget {
@@ -19,9 +20,19 @@ class _SecondScreenState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  checkIfLogged() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("token") != null){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => Home()
+      ));
+    };
+
+  }
+
   @override
   Widget build(BuildContext context) {
-
+  checkIfLogged();
     return Scaffold(
       body: Center(
           child: Column(
@@ -51,6 +62,7 @@ class _SecondScreenState extends State<Login> {
                   height: 50,
                   width: 330,
                   child: TextField(
+                    obscureText: true,
                     controller: passwordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/User.dart';
@@ -17,12 +20,25 @@ class _SecondScreenState extends State<Home> {
   Color red = Color(0xffFFAD6F);
   Color orange = Color(0xffFEB74E);
   SharedPreferences prefs;
-  inintShared() async{
-     prefs = await SharedPreferences.getInstance();
+  String name = "";
+  String city = "";
+
+  _getUser() async {
+    prefs = await SharedPreferences.getInstance();
+    String url = 'http://ventusapi.herokuapp.com/api/user';
+    Map<String, String> headers = {"Authorization": "Bearer " + prefs.getString("token")};
+    String json = '';
+    Response response = await post(url, headers: headers, body: json);
+    Map resp = jsonDecode(response.body.toString());
+    setState(() {
+      name = resp['first_name'];
+      city = resp['location'];
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-    inintShared();
+    _getUser();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: blue),
@@ -75,12 +91,12 @@ class _SecondScreenState extends State<Home> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("Piast Bulgocki", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 17),),
+                                Text("piast bulgoci", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 17),),
                                 SizedBox(height: 3,),
                                 Row(
                                   children: <Widget>[
                                     Icon(Icons.pin_drop, color: blue, size: 10,),
-                                    Text("Góry Sowie", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 10),),
+                                    Text("sowei", style: TextStyle(fontWeight: FontWeight.bold, color: blue, fontSize: 10),),
                                   ],
                                 )
                               ],
@@ -184,11 +200,11 @@ class _SecondScreenState extends State<Home> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 15, 0, 0),
-                             child: Text("Łukasz Stanisławowski", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                             child: Text(name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                             ),
                              Padding(
                                padding: const EdgeInsets.fromLTRB(20, 3, 0, 0),
-                               child: Text("Drogosławiec, Stęszew", style: TextStyle(fontSize: 10, color: Colors.white),),
+                               child: Text(city, style: TextStyle(fontSize: 10, color: Colors.white),),
                              ),
                           ],
                       )
@@ -203,32 +219,37 @@ class _SecondScreenState extends State<Home> {
             ),
             ListTile(
               title: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.home, color: lightBlue, size: 30,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text("HOME", style: TextStyle(color: Colors.white),),
-                      )
-                    ],
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.home, color: lightBlue, size: 30,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: FlatButton(
+                          onPressed: (){
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (context) => Home()
+                            ));
+                          },
+                          child: Text("HOME", style: TextStyle(color: Colors.white),)),
+                    )
+                  ],
+                ),
               ),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute<Null>(builder: (BuildContext context) {
-                      return new Home();
-                    }));
-                Navigator.pop(context);
-              },
             ),
             ListTile(
               title: Container(
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.person, color: lightBlue, size: 30,),
+                    Icon(Icons.category, color: lightBlue, size: 30,),
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text("PROFILE", style: TextStyle(color: Colors.white),),
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (context) => Category()
+                            ));
+                          },
+                          child: Text("CATEGORIES", style: TextStyle(color: Colors.white),)),
                     )
                   ],
                 ),
@@ -238,26 +259,7 @@ class _SecondScreenState extends State<Home> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              title: Container(
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.category, color: lightBlue, size: 30,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text("CATEGORIES", style: TextStyle(color: Colors.white),),
-                    )
-                  ],
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute<Null>(builder: (BuildContext context) {
-                      return new Category();
-                    }));
-                Navigator.pop(context);
-              },
-            ),
+
           ],
         ),
         ),

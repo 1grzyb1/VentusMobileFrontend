@@ -34,7 +34,7 @@ class _SecondScreenState extends State<Register> {
 
   checkIfLogged() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      if(prefs.getString("logged") != null){
+      if(prefs.getString("token") != null){
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => Home()
         ));
@@ -56,7 +56,7 @@ class _SecondScreenState extends State<Register> {
   }
   @override
   Widget build(BuildContext context) {
-//    checkIfLogged();
+    checkIfLogged();
     void _onSwitchChanged(bool variable) {
       setState(() {
         switchOn = variable;
