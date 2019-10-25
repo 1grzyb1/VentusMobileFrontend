@@ -205,7 +205,7 @@ class _SecondScreenState extends State<Register> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 5.0),
                         ),
-                        labelText: 'Year of birth'),
+                        labelText: 'Your age'),
                   ),
                 ),
               ),
