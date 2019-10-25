@@ -20,8 +20,21 @@ class ChooseScreen extends State<Choose> {
   int id = 0;
   List<SubcategoryPODO> categories;
   bool ones = true;
+  _refreshToken() async {
+    String url = 'http://ventusapi.herokuapp.com/api/token/refresh';
+    var map = new Map<String, dynamic>();
+    map['refresh_token'] = prefs.getString('refresfToken');
+    Response response = await post(
+      url,
+      body: map,
+    );
+    Map resp = jsonDecode(response.body.toString());
+    prefs.setString('token', resp['token']);
+  }
+
   inintShared() async{
     prefs = await SharedPreferences.getInstance();
+    _refreshToken();
     text = prefs.getInt("categoryID").toString();
     String url = "http://ventusapi.herokuapp.com/api/category/" +text + "/subcategories";
     Response response = await get(url);

@@ -12,6 +12,7 @@ import 'package:ventus/main.dart';
 
 import 'Home.dart';
 import 'PODO/Category.dart';
+import 'laoder/ColorLoader.dart';
 
 class Category extends StatefulWidget {
   @override
@@ -31,10 +32,6 @@ class _CategoryState extends State<Category> {
 
   List<Color> colors = [
     Colors.red,
-    Colors.green,
-    Colors.indigo,
-    Colors.pinkAccent,
-    Colors.blue
   ];
 
 
@@ -66,10 +63,14 @@ class _CategoryState extends State<Category> {
     });
   }
 
+  @protected
+  @mustCallSuper
+  void initState() {
+    _getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _getUser();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: blue),
@@ -88,10 +89,18 @@ class _CategoryState extends State<Category> {
                 future: _getCategories(),
                 builder: (BuildContext context, AsyncSnapshot snapshot){
                   if(snapshot.data == null){
-                    return Text("Please Wait...");
+                    return ColorLoader(
+                      colors: colors,
+                      duration: Duration(microseconds: 1200),
+                    );;
                   }else{
                     return Wrap(children: <Widget>[...snapshot.data.map((item) => GestureDetector(
                       onTap: () async {
+                        String url = 'http://ventusapi.herokuapp.com/api/user/category/new';
+                        Map<String, String> headers = {"Authorization": "Bearer " + prefs.getString("token")};
+                        String json = '[' + item.id.toString() + ']';
+                        Response response = await post(url, headers: headers, body: json);
+                        print(response.statusCode.toString());
                         prefs.setInt("categoryID", item.id);
                         Navigator.of(context).push(
                             MaterialPageRoute<Null>(builder: (BuildContext context) {
@@ -170,45 +179,65 @@ class _CategoryState extends State<Category> {
               ),
               ListTile(
                 title: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.home, color: lightBlue, size: 30,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: FlatButton(
-                          onPressed: (){
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                builder: (context) => Home()
-                            ));
-                          },
-                            child: Text("HOME", style: TextStyle(color: Colors.white),)),
-                      )
-                    ],
+                  child: FlatButton(
+                    onPressed: (){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => Home()
+                      ));
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.home, color: lightBlue, size: 30,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text("HOME", style: TextStyle(color: Colors.white),),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
               ListTile(
                 title: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.category, color: lightBlue, size: 30,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                builder: (context) => Category()
-                            ));
-                          },
-                            child: Text("CATEGORIES", style: TextStyle(color: Colors.white),)),
-                      )
-                    ],
+                  child: FlatButton(
+                    onPressed: (){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => Category()
+                      ));
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.category, color: lightBlue, size: 30,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text("CATEGORIES", style: TextStyle(color: Colors.white),),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                onTap: () {
-
-                  Navigator.pop(context);
-                },
+              ),
+              ListTile(
+                title: Container(
+                  child: FlatButton(
+                    onPressed: (){
+                      prefs.setString('token', null);
+                      prefs.setString("refresfToken", null);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => FirstScreen()
+                      ));
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.exit_to_app, color: lightBlue, size: 30,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text("LOG OUT", style: TextStyle(color: Colors.white),),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

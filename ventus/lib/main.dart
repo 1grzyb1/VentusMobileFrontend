@@ -11,68 +11,76 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 class _MyAppState extends State<MyApp> {
+  Widget home = FirstScreen();
+
   checkIfLogged() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("token") != null){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Home()
-      ));
-    };
-
+    if(prefs.getString('token') != null){
+      setState(() {
+        home = Home();
+      });
+    }
   }
-
-
   @override
   Widget build(BuildContext context) {
-//    checkIfLogged();
+    checkIfLogged();
     return MaterialApp(
       title: "SetState management",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirstScreen(),
+      home: home,
     );
   }
 }
 
+bool logged = false;
+
 class FirstScreen extends StatelessWidget {
+
   BuildContext get context => null;
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Center(
-          child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
-            child: Image.asset('assets/logo07.png'),
-          ),
-          SizedBox(height: 200),
-          FlatButton(
-            child: _registerUI,
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute<Null>(builder: (BuildContext context) {
-                    return new Register();
-                  }));
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: FlatButton(
-              child: _animatedButtonUI,
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Login();
-                }));
-              },
-            ),
-          )
-        ],
-      )),
-    );
+    if(logged){
+      return Home();
+    }
+    else {
+      return Scaffold(
+        body: Center(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
+                  child: Image.asset('assets/logo07.png'),
+                ),
+                SizedBox(height: 200),
+                FlatButton(
+                  child: _registerUI,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute<Null>(
+                            builder: (BuildContext context) {
+                              return new Register();
+                            }));
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: FlatButton(
+                    child: _animatedButtonUI,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute<Null>(
+                              builder: (BuildContext context) {
+                                return new Login();
+                              }));
+                    },
+                  ),
+                )
+              ],
+            )),
+      );
+    }
   }
 }
 

@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
-
+import 'package:dio/dio.dart';
+import 'package:path/path.dart' as path;
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ventus/Home.dart';
 import 'package:ventus/Login.dart';
@@ -17,7 +20,6 @@ class Register extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<Register> {
-
   String date = "Date";
   String dropdownValue = 'Male'.toUpperCase();
   bool switchOn = false;
@@ -31,42 +33,66 @@ class _SecondScreenState extends State<Register> {
   final locationController = TextEditingController();
   final nameController = TextEditingController();
   final messengerController = TextEditingController();
+  final dateController = TextEditingController();
 
   checkIfLogged() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      if(prefs.getString("token") != null){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => Home()
-        ));
-      };
-
+    if (prefs.getString("token") != null) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+    }
+    ;
   }
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(2020, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        date = selectedDate.year.toString() + "-" + selectedDate.month.toString() + "-" + selectedDate.day.toString();
+        date = selectedDate.year.toString() +
+            "-" +
+            selectedDate.month.toString() +
+            "-" +
+            selectedDate.day.toString();
       });
   }
+
+  @protected
+  @mustCallSuper
+  void initState() {
+    checkIfLogged();
+  }
+
+  File _image;
+  String name = "";
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+      name = path.basename(_image.path);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    checkIfLogged();
     void _onSwitchChanged(bool variable) {
       setState(() {
         switchOn = variable;
       });
     }
+
     void _onSwitchChanged1(bool variable) {
       setState(() {
         switchOn1 = variable;
       });
     }
+
     void _onSwitchChanged2(bool variable) {
       setState(() {
         switchOn2 = variable;
@@ -76,12 +102,12 @@ class _SecondScreenState extends State<Register> {
     return Scaffold(
       body: Center(
           child: Container(
-            margin: EdgeInsets.only(bottom: 20),
-            child: SingleChildScrollView(
-              child: Column(
-        children: <Widget>[
+        margin: EdgeInsets.only(bottom: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 40),
+                padding: const EdgeInsets.only(top: 50),
                 child: Image.asset('assets/logo07.png'),
               ),
               Padding(
@@ -93,14 +119,15 @@ class _SecondScreenState extends State<Register> {
                     controller: emailController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'Email'),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -108,14 +135,15 @@ class _SecondScreenState extends State<Register> {
                     controller: locationController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'City'),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -124,14 +152,15 @@ class _SecondScreenState extends State<Register> {
                     controller: passwordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'Password'),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -140,14 +169,15 @@ class _SecondScreenState extends State<Register> {
                     controller: repasswordController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'RePassword'),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -155,42 +185,32 @@ class _SecondScreenState extends State<Register> {
                     controller: nameController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'Name'),
                   ),
                 ),
               ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-            child: Container(
-              height: 50,
-              width: 330,
-              decoration: BoxDecoration(
-                border: new Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Container(
+                  height: 50,
+                  width: 330,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: dateController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
+                        ),
+                        labelText: 'Year of birth'),
+                  ),
                 ),
               ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(date, style: TextStyle(color: Colors.grey[600]),),
-                  ),),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: FlatButton(
-                        onPressed: () => _selectDate(context),
-                      child: _date,
-                    ),
-                  )
-                ],
-              )
-            ),
-          ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -198,14 +218,15 @@ class _SecondScreenState extends State<Register> {
                     controller: messengerController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 5.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 5.0),
                         ),
                         labelText: 'Messenger'),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: Container(
                   height: 50,
                   width: 330,
@@ -225,14 +246,16 @@ class _SecondScreenState extends State<Register> {
                         child: Icon(Icons.keyboard_arrow_down),
                       ),
                       iconSize: 24,
-                      style: TextStyle(fontSize: 15, color: Colors.grey[600]),
+                      style: TextStyle(fontSize: 20, color: Colors.grey[600]),
                       onChanged: (String newValue) {
                         setState(() {
                           dropdownValue = newValue;
                         });
                       },
-                      items: <String>['Male'.toUpperCase(), 'Female'.toUpperCase()]
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>[
+                        'Male'.toUpperCase(),
+                        'Female'.toUpperCase()
+                      ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -257,9 +280,12 @@ class _SecondScreenState extends State<Register> {
                     ]),
                     TableRow(children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                        child: Text("I'm 13 years old and accept terms of use".toUpperCase(),
-                            style: TextStyle(color: Color(0xff44647D),
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Text(
+                            "I'm 13 years old and accept terms of use"
+                                .toUpperCase(),
+                            style: TextStyle(
+                                color: Color(0xff44647D),
                                 fontWeight: FontWeight.bold)),
                       ),
                       Switch(
@@ -278,15 +304,15 @@ class _SecondScreenState extends State<Register> {
               FlatButton(
                 child: _animatedButtonUI,
                 onPressed: () async {
-                  if(!switchOn2){
-                    showDialog(context: context,
-                        builder: (BuildContext context){
+                  if (!switchOn2) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
                           return AlertDialog(
                             content: Text("Accept term of use"),
                           );
-                        }
-                    );
-                  } else{
+                        });
+                  } else {
                     String url = "http://ventusapi.herokuapp.com/api/register";
                     var map = new Map<String, dynamic>();
                     map['password'] = passwordController.text;
@@ -294,7 +320,7 @@ class _SecondScreenState extends State<Register> {
                     map['gender'] = dropdownValue;
                     map['location'] = locationController.text;
                     map['first_name'] = nameController.text;
-                    map['birthday'] = date;
+                    map['birthday'] = dateController.text;
                     map['messenger'] = messengerController.text;
 
                     http.Response response = await http.post(
@@ -302,67 +328,81 @@ class _SecondScreenState extends State<Register> {
                       body: map,
                     );
 
-                    if(response.statusCode == 200){
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => Login()
-                      ));
-                    }
-                    else{
+
+                    if (response.statusCode == 200) {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => Login()));
+                    } else {
                       Map resp = json.decode(response.body.toString());
-                      showDialog(context: context,
-                          builder: (BuildContext context){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
                             return AlertDialog(
                               content: Text(resp['error'].toString()),
                             );
-                          }
-                      );
+                          });
                     }
-
                   }
-
-
                 },
               )
-        ],
-      ),
-            ),
-          )),
+            ],
+          ),
+        ),
+      )),
     );
   }
 }
 
 Widget get _date => Container(
-  height: 50,
-  width: 100,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(100.0),
-    color: Color(0xff44647D),
-  ),
-  child: Center(
-    child: Text(
-      'Choose Date',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      height: 50,
+      width: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100.0),
+        color: Color(0xff44647D),
       ),
-    ),
-  ),
-);
+      child: Center(
+        child: Text(
+          'Choose Date',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
 
 Widget get _animatedButtonUI => Container(
-  height: 50,
-  width: 340,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(100.0),
-    color: Color(0xff44647D),
-  ),
-  child: Center(
-    child: Text(
-      'Zarejestruj',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      height: 50,
+      width: 340,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100.0),
+        color: Color(0xff44647D),
       ),
-    ),
-  ),
-);
+      child: Center(
+        child: Text(
+          'Zarejestruj',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+
+Widget get _filePicker => Container(
+      height: 40,
+      width: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100.0),
+        color: Color(0xff44647D),
+      ),
+      child: Center(
+        child: Text(
+          'Choose profile image',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
